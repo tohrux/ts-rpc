@@ -94,6 +94,14 @@ export function scan (
       path: c.getSourceFile().getFilePath(),
       methods: methods.map(m => ({
         name: m.getName(),
+        params: m.getParameters().map((v, i) => {
+          return {
+            name: v.getName(),
+            required:
+              v.getQuestionTokenNode()?.getFullText() === '?' ? false : true,
+            type: v.getType().getText(),
+          }
+        }),
         decorators: m.getDecorators().map(d => d.getText())
       }))
     })
